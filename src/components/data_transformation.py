@@ -7,9 +7,10 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-# ✅ Always download NLTK data at runtime to default location
-nltk.download('punkt')
-nltk.download('stopwords')
+# ✅ Force clean download of punkt and stopwords
+nltk.download('punkt', quiet=True, force=True)
+nltk.download('stopwords', quiet=True, force=True)
+
 
 # ✅ Initialize stemmer and stopwords
 ps = PorterStemmer()
@@ -36,7 +37,6 @@ def transform_dataset(df: pd.DataFrame) -> pd.DataFrame:
 def vectorize_text(text_series, save_path="artifacts/vectorizer.pkl"):
     vectorizer = TfidfVectorizer(max_features=3000)
     X = vectorizer.fit_transform(text_series)
-
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     joblib.dump(vectorizer, save_path)
 
