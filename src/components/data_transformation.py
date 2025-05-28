@@ -7,28 +7,15 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-# Setup NLTK data directory explicitly for cloud environment
-nltk_data_path = os.path.join(os.getcwd(), 'nltk_data')
-os.makedirs(nltk_data_path, exist_ok=True)
+# ✅ Always download NLTK data at runtime to default location
+nltk.download('punkt')
+nltk.download('stopwords')
 
-# Add custom nltk data path so nltk can find resources
-if nltk_data_path not in nltk.data.path:
-    nltk.data.path.append(nltk_data_path)
-
-# Download punkt and stopwords if not already downloaded
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt', download_dir=nltk_data_path)
-
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords', download_dir=nltk_data_path)
-
+# ✅ Initialize stemmer and stopwords
 ps = PorterStemmer()
 stop_words = set(stopwords.words('english'))
 
+# ✅ Text cleaning and stemming
 def transform_text(text: str) -> str:
     text = text.lower()
     tokens = nltk.word_tokenize(text)
@@ -40,15 +27,16 @@ def transform_text(text: str) -> str:
                 filtered_words.append(ps.stem(word))
     return " ".join(filtered_words)
 
+# ✅ Apply transform to full dataset
 def transform_dataset(df: pd.DataFrame) -> pd.DataFrame:
     df["transformed_text"] = df["Text"].apply(transform_text)
     return df
 
+# ✅ TF-IDF Vectorization and saving
 def vectorize_text(text_series, save_path="artifacts/vectorizer.pkl"):
     vectorizer = TfidfVectorizer(max_features=3000)
     X = vectorizer.fit_transform(text_series)
 
-    # Save the vectorizer to artifacts folder
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     joblib.dump(vectorizer, save_path)
 
