@@ -1,15 +1,23 @@
 import nltk
+import os
 import string
 import re
 import joblib
-import os
+
+# Set a specific nltk_data download directory (helps in cloud environments like Streamlit)
+nltk_data_path = os.path.join(os.getcwd(), 'nltk_data')
+os.makedirs(nltk_data_path, exist_ok=True)
+
+nltk.download('punkt', download_dir=nltk_data_path)
+nltk.download('stopwords', download_dir=nltk_data_path)
+
+# Add this path to nltk data paths so nltk can find the downloaded files
+nltk.data.path.append(nltk_data_path)
+
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
-
-nltk.download('punkt')
-nltk.download('stopwords')
 
 ps = PorterStemmer()
 stop_words = set(stopwords.words('english'))
