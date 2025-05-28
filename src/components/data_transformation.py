@@ -18,7 +18,6 @@ if nltk_data_path not in nltk.data.path:
 
 @st.cache_data(show_spinner=False)
 def download_nltk_resources():
-    # Download punkt and stopwords only if missing
     try:
         nltk.data.find('tokenizers/punkt')
     except LookupError:
@@ -28,7 +27,7 @@ def download_nltk_resources():
     except LookupError:
         nltk.download('stopwords', download_dir=nltk_data_path)
 
-# Call the download function once, cached by Streamlit
+# Download NLTK resources once per session, cached by Streamlit
 download_nltk_resources()
 
 ps = PorterStemmer()
@@ -53,8 +52,4 @@ def vectorize_text(text_series, save_path="artifacts/vectorizer.pkl"):
     vectorizer = TfidfVectorizer(max_features=3000)
     X = vectorizer.fit_transform(text_series)
 
-    # Save the vectorizer to artifacts folder
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    joblib.dump(vectorizer, save_path)
-
-    return X, vectorizer
+    # Save the vectorizer to ar
