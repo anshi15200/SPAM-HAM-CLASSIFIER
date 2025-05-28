@@ -1,5 +1,8 @@
 import streamlit as st
 from src.pipeline.predict_pipeline import predict_message
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
 
 st.set_page_config(page_title="Spam Ham Classifier", layout="centered")
 
