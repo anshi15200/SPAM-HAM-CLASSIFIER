@@ -8,8 +8,9 @@ from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Download NLTK data
-nltk.download('punkt', quiet=True, force=True)
-nltk.download('stopwords', quiet=True, force=True)
+nltk_data_path = os.path.join(os.path.dirname(__file__), "../../nltk_data")
+nltk.data.path.append(nltk_data_path)
+
 
 ps = PorterStemmer()
 stop_words = set(stopwords.words('english'))
