@@ -6,7 +6,6 @@ import pandas as pd
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
-import streamlit as st
 
 # Setup NLTK data directory explicitly for cloud environment
 nltk_data_path = os.path.join(os.getcwd(), 'nltk_data')
@@ -16,19 +15,16 @@ os.makedirs(nltk_data_path, exist_ok=True)
 if nltk_data_path not in nltk.data.path:
     nltk.data.path.append(nltk_data_path)
 
-@st.cache_data(show_spinner=False)
-def download_nltk_resources():
-    try:
-        nltk.data.find('tokenizers/punkt')
-    except LookupError:
-        nltk.download('punkt', download_dir=nltk_data_path)
-    try:
-        nltk.data.find('corpora/stopwords')
-    except LookupError:
-        nltk.download('stopwords', download_dir=nltk_data_path)
+# Download punkt and stopwords if not already downloaded
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt', download_dir=nltk_data_path)
 
-# Download NLTK resources once per session, cached by Streamlit
-download_nltk_resources()
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords', download_dir=nltk_data_path)
 
 ps = PorterStemmer()
 stop_words = set(stopwords.words('english'))
@@ -52,4 +48,8 @@ def vectorize_text(text_series, save_path="artifacts/vectorizer.pkl"):
     vectorizer = TfidfVectorizer(max_features=3000)
     X = vectorizer.fit_transform(text_series)
 
-    # Save the vectorizer to ar
+    # Save the vectorizer to artifacts folder
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+    joblib.dump(vectorizer, save_path)
+
+    return X, vectorizer
