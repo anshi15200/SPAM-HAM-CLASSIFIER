@@ -24,8 +24,7 @@ __pycache__/
 .streamlit/credentials.toml
 .streamlit/config.toml
 
-# Artifacts and data folders (optional, if large files)
-artifacts/
+#  data folders (optional, if large files)
 data/
 
 # IDE/editor folders (optional)
