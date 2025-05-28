@@ -1,0 +1,33 @@
+# Virtual environment folders
+venv/
+.venv/
+env/
+ENV/
+
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter Notebook checkpoints (if any)
+.ipynb_checkpoints/
+
+# macOS system files
+.DS_Store
+
+# Environment variables file (if you have one)
+.env
+
+# Streamlit cache and config
+.streamlit/cache/
+.streamlit/credentials.toml
+.streamlit/config.toml
+
+# Artifacts and data folders (optional, if large files)
+artifacts/
+data/
+
+# IDE/editor folders (optional)
+.vscode/
+.idea/
