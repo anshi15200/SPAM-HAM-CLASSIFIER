@@ -2,6 +2,8 @@ import os
 import streamlit as st
 from src.pipeline.predict_pipeline import predict_message
 import nltk
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Set up a persistent nltk data directory
 nltk_data_dir = os.path.join(os.getcwd(), 'nltk_data')
